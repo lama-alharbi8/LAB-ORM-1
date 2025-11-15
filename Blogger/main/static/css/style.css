@@ -1,0 +1,123 @@
+:root {
+    --primary-color: #033d94;
+    --secondary-color: #efefef;
+    --dark-bg: #1a1a1a;
+    --dark-card: #2d2d2d;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: var(--secondary-color);
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+html.dark-mode body {
+    background-color: var(--dark-bg);
+    color: #e0e0e0;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    transition: transform 0.2s;
+    margin-bottom: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+html.dark-mode .card {
+    background-color: var(--dark-card);
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.hero-section {
+    background: linear-gradient(to bottom, var(--primary-color), #4dabf7);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-control, .form-select {
+    background-color: white;
+    border: 1px solid #ced4da;
+    color: black;
+}
+
+html.dark-mode .form-control,
+html.dark-mode .form-select {
+    background-color: #333;
+    border-color: #555;
+    color: white;
+}
+
+html.dark-mode .form-control::placeholder {
+    color: #aaa;
+}
+
+html.dark-mode .form-control:focus {
+    background-color: #333;
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+html.dark-mode .text-muted {
+    color: #aaa;
+}
+
+.form-label {
+    color: inherit;
+}
+
+.form-text {
+    color: #6c757d;
+}
+
+html.dark-mode .form-text {
+    color: #aaa;
+}
+
+.btn-outline-light.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+}
+
+html.dark-mode a {
+    color: #4dabf7;
+}
+
+html.dark-mode a:hover {
+    color: #6cb2ff;
+}
+
+html.dark-mode .card-body {
+    color: #e0e0e0;
+}
+
+html.dark-mode .card-title {
+    color: #ffffff;
+}
+
+html.dark-mode .card-text {
+    color: #e0e0e0;
+}
