@@ -20,6 +20,11 @@
     {% for post in posts %}
     <div class="col-md-6 col-lg-4 mb-4">
         <div class="card h-100">
+            <div class="card-img-top" style="height: 250px; overflow: hidden;">
+                <img src="{{ post.image.url }}"
+                    class="w-100 h-100" alt="{{ post.title }}" style="object-fit: cover;">
+            </div>
+
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-2">
                     <small class="text-muted">
@@ -32,8 +37,9 @@
                     <span class="badge bg-warning">Draft</span>
                     {% endif %}
                 </div>
-                
-                <h5 class="card-title">{{ post.title }}</h5>
+                <a href="{%url 'posts:post_detail_view' post.id%}">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                </a>
                 <p class="card-text">{{ post.content|truncatewords:20 }}</p>
             </div>
             <div class="card-footer">
@@ -57,23 +63,25 @@
 
 <div class="row mt-5 pt-5">
     <div class="col-md-4 text-center mb-4">
-        <div class="feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+        <div class="feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+            style="width: 70px; height: 70px;">
             <i class="fas fa-edit fa-2x"></i>
         </div>
         <h4>Easy to Use</h4>
         <p class="text-muted">Simple writing interface</p>
     </div>
-    
+
     <div class="col-md-4 text-center mb-4">
-        <div class="feature-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+        <div class="feature-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+            style="width: 70px; height: 70px;">
             <i class="fas fa-users fa-2x"></i>
         </div>
         <h4>For Everyone</h4>
         <p class="text-muted">Share with the community</p>
     </div>
-    
     <div class="col-md-4 text-center mb-4">
-        <div class="feature-icon bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+        <div class="feature-icon bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+            style="width: 70px; height: 70px;">
             <i class="fas fa-rocket fa-2x"></i>
         </div>
         <h4>Fast</h4>
