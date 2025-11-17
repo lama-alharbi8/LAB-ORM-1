@@ -6,6 +6,18 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <h1 class="text-center mb-4">Create New Post</h1>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Please correct the following errors:</strong>
+            <ul class="mb-0 mt-2">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         
         <div class="card">
             <div class="card-body">
@@ -14,33 +26,74 @@
                     
                     <div class="mb-3">
                         <label class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control" placeholder="Enter post title" required>
+                        <input type="text" name="title" class="form-control {% if form.title.errors %}is-invalid{% endif %}" 
+                               placeholder="Enter post title" required minlength="5" maxlength="512"
+                               value="{% if form.title.value %}{{ form.title.value }}{% endif %}">
+                        {% if form.title.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Content</label>
-                        <textarea name="content" class="form-control" rows="8" placeholder="Write your post here..." required></textarea>
+                        <textarea name="content" class="form-control {% if form.content.errors %}is-invalid{% endif %}" 
+                                  rows="8" placeholder="Write your post here..." required>{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+                        {% if form.content.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Publish</label>
-                            <select name="is_published" class="form-select">
-                                <option value="True">Publish Now</option>
-                                <option value="False">Save as Draft</option>
+                            <select name="is_published" class="form-select {% if form.is_published.errors %}is-invalid{% endif %}">
+                                <option value="True" {% if form.is_published.value == True %}selected{% endif %}>Publish Now</option>
+                                <option value="False" {% if form.is_published.value == False %}selected{% endif %}>Save as Draft</option>
                             </select>
+                            {% if form.is_published.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.is_published.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                         
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Publish Date</label>
-                            <input type="datetime-local" name="published_at" class="form-control">
+                            <input type="datetime-local" name="published_at" class="form-control {% if form.published_at.errors %}is-invalid{% endif %}"
+                                   value="{% if form.published_at.value %}{{ form.published_at.value|date:'Y-m-d\TH:i' }}{% endif %}">
+                            {% if form.published_at.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.published_at.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
+                    
                     <div class="mb-3">
                         <label class="form-label">Post Image</label>
-                        <input type="file" name="image">
-                        <div class="form-text">Optoinal: Add an image to your post</div>
+                        <input type="file" name="image" accept="image/*" class="form-control {% if form.image.errors %}is-invalid{% endif %}">
+                        <div class="form-text">Optional: Add an image to your post</div>
+                        {% if form.image.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.image.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
+                    
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fas fa-paper-plane me-2"></i>Publish Post

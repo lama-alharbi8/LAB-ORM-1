@@ -1,19 +1,11 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block title %}Home - Blogger{% endblock %}
+{% block title %}All Posts - Blogger{% endblock %}
 
 {% block content %}
 
-<div class="hero-section rounded p-5 mb-5 text-center">
-    <h1 class="display-4 fw-bold">Welcome to Blogger</h1>
-    <p class="lead">Share your stories with the world</p>
-    <a href="{% url 'posts:create_post_view' %}" class="btn btn-light btn-lg">
-        <i class="fas fa-plus me-2"></i>Write a Post
-    </a>
-</div>
-
-<h2 class="text-center mb-4">Latest Posts</h2>
+<h2 class="text-center mb-4">All Posts</h2>
 
 {% if post %}
 <div class="row">
@@ -21,7 +13,8 @@
     <div class="col-md-6 col-lg-4 mb-4">
         <div class="card h-100">
             <div class="card-img-top" style="height: 250px; overflow: hidden;">
-                <img src="{{ post.image.url }}" class="w-100 h-100" alt="{{ post.title }}" style="object-fit: cover;">
+                <img src="{{ post.image.url }}"
+                    class="w-100 h-100" alt="{{ post.title }}" style="object-fit: cover;">
             </div>
 
             <div class="card-body">
@@ -48,9 +41,6 @@
     </div>
     {% endfor %}
 </div>
-<div class="card-footer text-center mt-4">
-    <a href="{%url 'posts:all_posts_view' %}" class="btn btn-primary btn-lg">See All Posts</a>
-</div>
 {% else %}
 
 <div class="text-center py-5">
@@ -62,7 +52,6 @@
     </a>
 </div>
 {% endif %}
-
 
 <div class="row mt-5 pt-5">
     <div class="col-md-4 text-center mb-4">

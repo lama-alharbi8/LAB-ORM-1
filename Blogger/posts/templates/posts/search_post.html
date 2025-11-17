@@ -1,0 +1,86 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Search Results - Blogger{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Search Results ({{posts.count}})</h1>
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <form method="get" action="{% url 'posts:search_post_view' %}" class="d-flex align-items-center">
+                <input class="form-control me-2" type="search" placeholder="Search posts..." name="search" value="{{ query }}">
+                
+                {% if posts and query %}
+                <select name="order_by" class="form-select me-2" style="width: auto;">
+                    <option value="">Sort by</option>
+                    <option value="newest" {% if order_by == 'newest' %}selected{% endif %}>Newest First</option>
+                    <option value="oldest" {% if order_by == 'oldest' %}selected{% endif %}>Oldest First</option>
+                    <option value="draft" {% if order_by == 'draft' %}selected{% endif %}>Draft Posts</option>
+                    <option value="published" {% if order_by == 'published' %}selected{% endif %}>Published Only</option>
+                </select>
+                {% endif %}
+                
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+    {% if query %}
+    <p class="text-center">Search results for: "<strong>{{ query }}</strong>"</p>
+    {% endif %}
+
+    {% if posts %}
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                {% if post.image %}
+                <div class="card-img-top" style="height: 250px; overflow: hidden;">
+                    <img src="{{ post.image.url }}" class="w-100 h-100" alt="{{ post.title }}" style="object-fit: cover;">
+                </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar me-1"></i>
+                            {{ post.published_at|date:"M d, Y" }}
+                        </small>
+                        {% if post.is_published %}
+                        <span class="badge bg-success">Published</span>
+                        {% else %}
+                        <span class="badge bg-warning">Draft</span>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'posts:post_detail_view' post.id %}">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                    </a>
+                    <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'posts:post_detail_view' post.id %}" class="btn btn-primary btn-sm">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    {% if query %}
+    <div class="text-center py-5">
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h3 class="text-muted">No posts found</h3>
+        <p class="text-muted">No posts match your search for "{{ query }}"</p>
+        <a href="{% url 'posts:all_posts_view' %}" class="btn btn-primary">Browse All Posts</a>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h3 class="text-muted">Search Posts</h3>
+        <p class="text-muted">Enter a search term to find posts</p>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

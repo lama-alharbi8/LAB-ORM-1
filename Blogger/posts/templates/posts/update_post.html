@@ -7,6 +7,19 @@
     <div class="col-md-8">
         <h1 class="text-center mb-4">Update {{post.title}}</h1>
         
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Please correct the following errors:</strong>
+            <ul class="mb-0 mt-2">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
         <div class="card">
             <div class="card-body">
                 <form method="post" action="{% url 'posts:post_update_view' post.id %}" enctype="multipart/form-data">
@@ -14,38 +27,81 @@
                     
                     <div class="mb-3">
                         <label class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control" placeholder="Enter post title" required value="{{post.title}}">
+                        <input type="text" name="title" class="form-control {% if form.title.errors %}is-invalid{% endif %}" 
+                               placeholder="Enter post title" required value="{% if form.title.value %}{{ form.title.value }}{% else %}{{ post.title }}{% endif %}">
+                        {% if form.title.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Content</label>
-                        <textarea name="content" class="form-control" rows="8" placeholder="Write your post here..." required >{{post.content}}</textarea>
+                        <textarea name="content" class="form-control {% if form.content.errors %}is-invalid{% endif %}" 
+                                  rows="8" placeholder="Write your post here..." required>{% if form.content.value %}{{ form.content.value }}{% else %}{{ post.content }}{% endif %}</textarea>
+                        {% if form.content.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Publish</label>
-                            <select name="is_published" class="form-select" value="{{post.is_published}}">
-                                <option value=True {%if is_published%}selected{%endif%}>Publish Now</option>
-                                <option value=False {%if not is_published%}selected{%endif%}>Save as Draft</option>
+                            <select name="is_published" class="form-select {% if form.is_published.errors %}is-invalid{% endif %}">
+                                <option value="True" {% if form.is_published.value == True or post.is_published %}selected{% endif %}>Publish Now</option>
+                                <option value="False" {% if form.is_published.value == False or not post.is_published %}selected{% endif %}>Save as Draft</option>
                             </select>
+                            {% if form.is_published.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.is_published.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                         
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Publish Date</label>
-                            <input type="datetime-local" name="published_at" class="form-control" value="{{post.published_at|date:'Y-m-d\TH:i'}}" >
+                            <input type="datetime-local" name="published_at" class="form-control {% if form.published_at.errors %}is-invalid{% endif %}" 
+                                   value="{% if form.published_at.value %}{{ form.published_at.value|date:'Y-m-d\TH:i' }}{% else %}{{ post.published_at|date:'Y-m-d\TH:i' }}{% endif %}">
+                            {% if form.published_at.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.published_at.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
+                    
+                    {% if post.image %}
                     <div class="row">
                         <div class="col-3">
-                            <img src="{{post.image.url}}" class="w-100"/>
+                            <img src="{{ post.image.url }}" class="w-100 rounded" alt="Current post image">
                         </div>
                     </div>
+                    {% endif %}
+                    
                     <div class="mb-3">
                         <label class="form-label">Post Image</label>
-                        <input type="file" name="image">
-                        <div class="form-text">Optoinal: Add an image to your post</div>
+                        <input type="file" name="image" class="form-control {% if form.image.errors %}is-invalid{% endif %}">
+                        <div class="form-text">Optional: Add an image to your post</div>
+                        {% if form.image.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.image.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
+                    
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fas fa-paper-plane me-2"></i>Update Post

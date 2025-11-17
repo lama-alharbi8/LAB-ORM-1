@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" {% if 'mode' in request.COOKIES %}class="dark-mode"{% endif %}>
+<html lang="en" {% if 'mode' in request.COOKIES %}class="dark-mode" {% endif %}>
 
 <head>
     <meta charset="UTF-8">
@@ -19,23 +19,30 @@
                 <a class="navbar-brand fw-bold" href="/">
                     <i class="fas fa-blog me-2"></i>Blogger
                 </a>
-                
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="navbar-nav ms-auto">
                         <a class="nav-link" href="/">Home</a>
                         <a class="nav-link" href="{% url 'posts:create_post_view' %}">Create Post</a>
+                        <a class="nav-link" href="{% url 'posts:all_posts_view' %}">All Posts</a>
                         <a class="nav-link" href="#">About</a>
                         <a class="nav-link" href="#">Contact</a>
-                        
+
+                        <form role="search" method="get" action="{%url 'posts:search_post_view'%}">
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search" value="{{request.GET.search}}">
+                        </form>
+
                         <div class="theme ms-2">
-                            <a href="{% url 'main:mode_view' 'light' %}?page={{ request.path }}" class="btn btn-outline-light {% if not 'mode' in request.COOKIES %}active{% endif %}">
+                            <a href="{% url 'main:mode_view' 'light' %}?page={{ request.path }}"
+                                class="btn btn-outline-light {% if not 'mode' in request.COOKIES %}active{% endif %}">
                                 <i class="fas fa-sun"></i>
                             </a>
-                            <a href="{% url 'main:mode_view' 'dark' %}?page={{ request.path }}" class="btn btn-outline-light {% if 'mode' in request.COOKIES %}active{% endif %}">
+                            <a href="{% url 'main:mode_view' 'dark' %}?page={{ request.path }}"
+                                class="btn btn-outline-light {% if 'mode' in request.COOKIES %}active{% endif %}">
                                 <i class="fas fa-moon"></i>
                             </a>
                         </div>
@@ -58,4 +65,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -5,8 +5,8 @@ from posts.models import Post
 
 def home_view(request:HttpRequest):
 
-    posts = Post.objects.filter(is_published=True).order_by('-published_at')
-    return render(request, 'main/home.html', {'posts': posts})
+    post = Post.objects.all().order_by("-published_at")[0:3]
+    return render(request, 'main/home.html', {'post': post})
 
 def mode_view(request: HttpRequest, mode):
     response = redirect(request.GET.get("page", '/'))
